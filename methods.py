@@ -1,5 +1,6 @@
 import pyproj
 import math
+import pandas as pd
 
 
 def XY_To_LatLon(x,y):
@@ -9,4 +10,16 @@ def XY_To_LatLon(x,y):
     (lat, lon) = P(x,y,inverse=True)    
     return (lon, lat)
 
+def load_data_barrios(path: str =  "./data/EquipamientosMunicipales.csv") -> pd.DataFrame:
+    """Carga los datos de negocios en barrios y devuelve el df.
+
+    Args:
+        path (str, optional): _description_. Defaults to "./data/EquipamientosMunicipales.csv".
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+    df = pd.read_csv("/home/pepe/Escritorio/Hackatroll/PROYECTO/backend/data/EquipamientosMunicipales.csv")
+    df = df[["X","Y","equipamien","idclase"]]
+    return df
 
