@@ -19,7 +19,7 @@ def load_data_barrios(path: str =  "./data/EquipamientosMunicipales.csv") -> pd.
     Returns:
         pd.DataFrame: _description_
     """
-    df = pd.read_csv("/home/pepe/Escritorio/Hackatroll/PROYECTO/backend/data/EquipamientosMunicipales.csv")
+    df = pd.read_csv(path)
     df = df[["X","Y","equipamien","idclase"]]
     return df
 
