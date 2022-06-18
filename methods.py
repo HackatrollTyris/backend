@@ -2,6 +2,8 @@ import pyproj
 import requests
 import pandas as pd
 import json
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import numpy as np
 
 
 def XY_To_LatLon(x,y):
