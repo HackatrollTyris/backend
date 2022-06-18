@@ -26,7 +26,7 @@ def getDistricts():
                                             'coordinates' : coordinates[0]}, ignore_index=True)
     
     
-    districts_pd.to_csv('data/districts.csv', index=False)
+    districts_pd.to_csv('csv/districts.csv', index=False)
     
 
 
