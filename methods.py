@@ -1,8 +1,9 @@
 import pyproj
-import math
-import pandas as pd
 import requests
+import pandas as pd
 import json
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import numpy as np
 
 
 def XY_To_LatLon(x,y):
@@ -12,18 +13,50 @@ def XY_To_LatLon(x,y):
     (lat, lon) = P(x,y,inverse=True)    
     return (lat, lon)
 
-
-
-def load_data_barrios(path: str =  "./data/EquipamientosMunicipales.csv") -> pd.DataFrame:
-    """Carga los datos de negocios en barrios y devuelve el df.
-
-    Args:
-        path (str, optional): _description_. Defaults to "./data/EquipamientosMunicipales.csv".
-
-    Returns:
-        pd.DataFrame: _description_
+def get_shops() -> None:
     """
-    df = pd.read_csv(path)
-    df = df[["X","Y","equipamien","idclase"]]
-    return df
+    Carga los datos de las tiendas disponibles de la API
+    """
+    shops_pd = pd.DataFrame(columns=['shop_id', 'name', 'class_id', 'coordinates'])
+    open_data_url = 'https://geoportal.valencia.es/apps/OpenData/SociedadBienestar/v_infociudad.json'
+    resp = requests.get(url = open_data_url)
+    data = resp.json()
+    for shop in data['features']:
+        try:
+            shop_id = shop['properties']['objectid']
+            name = shop['properties']['equipamien']
+            class_id = shop['properties']['idclase']
+            coordinates = shop['geometry']['coordinates']
+            
+            shops_pd = shops_pd.append({'shop_id' : shop_id,
+                                                'class_id' : class_id,
+                                                'name' : name, 
+                                                'coordinates' : coordinates}, ignore_index=True)
+        except:
+            # Algunos de los locales no tiene coordenadas por lo que si salta error se pasa al siguiente dato
+            continue
+        
+    shops_pd.to_csv('data/shops.csv', index=False)
+    
+def get_districts() -> None:
+    """
+    Carga los datos de los barrios y guarda el df como csv en la carpeta data
+    """
+    districts_pd = pd.DataFrame(columns=['district_id', 'name', 'coordinates'])
+    open_data_url = 'https://geoportal.valencia.es/apps/OpenData/UrbanismoEInfraestructuras/DISTRITOS.json'
+    resp = requests.get(url = open_data_url)
+    data = resp.json()
+    for district in data['features']:
+        name = district['properties']['nombre']
+        district_id = district['properties']['coddistrit']
+        coordinates = district['geometry']['coordinates']
+        districts_pd = districts_pd.append({'district_id' : district_id, 
+                                            'name' : name, 
+                                            'coordinates' : coordinates[0]}, ignore_index=True)
+    
+    districts_pd.to_csv('csv/districts.csv', index=False)
 
+def get_shops_ids():
+    f = open('shops.json')
+    ids = json.load(f)
+    return ids
