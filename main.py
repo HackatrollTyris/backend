@@ -16,4 +16,5 @@ def get_best_shop_location():
     id = data['id']
     shops = get_shops_coordinates_by_id(id)
     best_point = get_furthest_point()
+    return best_point
     
