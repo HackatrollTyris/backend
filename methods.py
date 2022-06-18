@@ -14,8 +14,9 @@ def XY_To_LatLon(x,y):
 
 
 
-def load_data_barrios(path: str =  "./data/EquipamientosMunicipales.csv") -> pd.DataFrame:
+def load_equipamientos_municipales(path: str =  "./data/EquipamientosMunicipales.csv") -> pd.DataFrame:
     """Carga los datos de negocios en barrios y devuelve el df.
+    Convierte las coordenadas a lat/long
 
     Args:
         path (str, optional): _description_. Defaults to "./data/EquipamientosMunicipales.csv".
@@ -25,5 +26,10 @@ def load_data_barrios(path: str =  "./data/EquipamientosMunicipales.csv") -> pd.
     """
     df = pd.read_csv(path)
     df = df[["X","Y","equipamien","idclase"]]
+    # df[["X","Y"]].apply(lambda x: print(x[0],x[1]),axis=1)
+    coordenadas = df[["X","Y"]].apply(lambda x: XY_To_LatLon(x[0],x[1]),axis=1)
+    x = [c[0] for c in coordenadas]
+    y = [c[1] for c in coordenadas]
+    df["X"]=x
+    df["Y"]=y
     return df
-
