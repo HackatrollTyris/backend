@@ -1,6 +1,7 @@
 import pyproj
 import requests
 import pandas as pd
+import json
 
 
 def XY_To_LatLon(x,y):
@@ -53,4 +54,7 @@ def get_districts() -> None:
     
     districts_pd.to_csv('csv/districts.csv', index=False)
 
-get_shops()
+def get_shops_ids():
+    f = open('shops.json')
+    ids = json.load(f)
+    return ids

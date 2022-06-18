@@ -1,9 +1,9 @@
 from flask import Flask
-import methods
+from methods import *
 
 app = Flask(__name__)
 
-@app.route("/shops")
+@app.route("/shop_ids")
 def get_shops():
-    return "<p>Hello, World!</p>"
+    return get_shops_ids()
 
