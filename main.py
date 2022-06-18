@@ -3,7 +3,7 @@ import methods
 
 app = Flask(__name__)
 
-@app.route("/districts")
-def hello_world():
+@app.route("/shops")
+def get_shops():
     return "<p>Hello, World!</p>"
 
