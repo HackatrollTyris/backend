@@ -67,10 +67,12 @@ def get_shops_ids() -> json :
 def get_shops_coordinates_by_id(id: string) -> pd.DataFrame:
     shops = pd.read_csv('data/shops.csv')
     shops_filtered = shops.loc[shops['class_id'] == int(id)]['coordinates']
-    shops_filtered = shops_filtered.apply(ast.literal_eval)
-    return shops_filtered.to_numpy()
+    shops_filtered = shops_filtered.apply(eval)
+    return shops_filtered.to_list()
 
-
-id = 1
-shops = get_shops_coordinates_by_id(id)
-best_point = get_furthest_point(shops)
+# id = 1
+# shops = get_shops_coordinates_by_id(id)
+# # print(shops)
+# # shops = np.array([[-1,2],[3,-15.4],[3.2,2],[1,5]])
+# best_point = get_furthest_point(shops)
+# print(best_point)
