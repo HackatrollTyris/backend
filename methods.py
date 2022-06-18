@@ -1,9 +1,11 @@
+import string
 import pyproj
 import requests
 import pandas as pd
 import json
 from scipy.spatial import Voronoi, voronoi_plot_2d
-import numpy as np
+import ast
+from voronoi import *
 
 
 def XY_To_LatLon(x,y):
@@ -56,7 +58,19 @@ def get_districts() -> None:
     
     districts_pd.to_csv('csv/districts.csv', index=False)
 
-def get_shops_ids():
+def get_shops_ids() -> json :
     f = open('shops.json')
     ids = json.load(f)
     return ids
+
+
+def get_shops_coordinates_by_id(id: string) -> pd.DataFrame:
+    shops = pd.read_csv('data/shops.csv')
+    shops_filtered = shops.loc[shops['class_id'] == int(id)]['coordinates']
+    shops_filtered = shops_filtered.apply(ast.literal_eval)
+    return shops_filtered.to_numpy()
+
+
+id = 1
+shops = get_shops_coordinates_by_id(id)
+best_point = get_furthest_point(shops)
