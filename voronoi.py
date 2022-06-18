@@ -13,7 +13,7 @@ def get_voronoi_intersections(points: np.array) -> list:
     Returns:
         np.array: _description_
     """
-    vor = Voronoi(points)
+    vor = Voronoi(np.array(points))
     return vor.vertices
 
 def get_furthest_point(points: np.array) -> tuple:
@@ -29,7 +29,7 @@ def get_furthest_point(points: np.array) -> tuple:
     Returns:
         tuple: _description_
     """
-    if len(points>2):
+    if len(points) < 2:
         raise ValueError("Mínimo dos valores.")
     voronoi_intersections = get_voronoi_intersections(points)
     total_distances = []
