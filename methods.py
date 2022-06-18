@@ -3,6 +3,8 @@ import math
 import requests
 import json
 import pandas as pd
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import numpy as np
 
 
 def XY_To_LatLon(x,y):
@@ -33,7 +35,8 @@ def load_equipamientos_municipales(path: str =  "./data/EquipamientosMunicipales
     df["X"]=x
     df["Y"]=y
     return df
-    
+
+
 def getDistricts():
     districts_pd = pd.DataFrame(columns=['district_id', 'name', 'coordinates'])
     open_data_url = 'https://geoportal.valencia.es/apps/OpenData/UrbanismoEInfraestructuras/DISTRITOS.json'
